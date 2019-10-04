@@ -7,12 +7,14 @@ defmodule Zaku do
   def start(_type, _args) do
     children = [
       Zaku.Results,
-      {Zaku.PathFinder, "."},
+      {Zaku.PathFinder, "/mnt/c/Users/CRISTHIAN/Desktop/dummy"},
       Zaku.WorkerSupervisor,
       {Zaku.Gatherer, 1}
     ]
-    opts = [:strategy: :one_for_all, name: Zaku.Supervisor]
+    opts = [strategy: :one_for_all, name: Zaku.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+
  
 end

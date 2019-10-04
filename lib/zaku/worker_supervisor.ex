@@ -9,7 +9,7 @@ defmodule Zaku.WorkerSupervisor do
 		DynamicSupervisor
 		.start_link(__MODULE__,
 					 :no_args,
-					 name: @WorkerSupervisor)
+					 name: @me)
 	end
 
 	def add_worker do

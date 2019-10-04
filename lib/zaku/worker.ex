@@ -10,7 +10,7 @@ defmodule Zaku.Worker do
 		{:ok, nil}
 	end
 
-	def handle_info(:do_one_file) do
+	def handle_info(:do_one_file, _) do
 		Zaku.PathFinder.next_path()
 		|> add_result()
 	end
@@ -27,9 +27,15 @@ defmodule Zaku.Worker do
 		Zaku.Gatherer.result(path, metadata_of_file_at(path))
 	end
 
-	defp metadata_of_file_at do
-		# TODO:
-		%{}
+	defp metadata_of_file_at(path) do
+		System.cmd("exiftool", [path]) 
+		|> elem(0)
+		|> String.split("\n")
+		|> Enum.reduce(%{}, fn (txt_row, metadata) ->
+				[field | [ value | []]] = 
+					txt_row |> String.split(":")
+					Map.put(metadata, field, value)
+		 end)
 	end
 
 end

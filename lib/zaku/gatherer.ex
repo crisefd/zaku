@@ -1,4 +1,4 @@
-defmodule Gatherer do
+defmodule Zaku.Gatherer do
 	use GenServer
 
 	@me Gatherer
@@ -9,10 +9,10 @@ defmodule Gatherer do
 		GenServer.start_link(__MODULE__, worker_count, name: @me)
 	end
 
-	def done, do: GenServer.cast(@me, :done)
+	def done(), do: GenServer.cast(@me, :done)
 	
 	def result(path, metadata) do
-		GenServer.cast(@me, {:result, path, hash})
+		GenServer.cast(@me, {:result, path, metadata})
 	end
 
 	# GenServer callbacks
@@ -31,7 +31,7 @@ defmodule Gatherer do
 		{:noreply, worker_count - 1}
 	end
 
-	def handle_cast({:results, path, metadata}, worker_count) do
+	def handle_cast({:result, path, metadata}, worker_count) do
 		Zaku.Results.add_metadata_for(path, metadata)
 		{:noreply, worker_count}
 	end
@@ -45,7 +45,9 @@ defmodule Gatherer do
 	# Private functions
 
 	defp report_results do
-		# TODO:
+		IO.puts "Results :
+		#{inspect Zaku.Results.get_final_results()}
+		"
 	end
 
 end
