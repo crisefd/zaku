@@ -4,17 +4,15 @@ defmodule Zaku do
   """
   use Application
 
-  def start(_type, _args) do
+  def start(_type, {path_to_folder, n_workers}) do
     children = [
       Zaku.Results,
-      {Zaku.PathFinder, "/mnt/c/Users/CRISTHIAN/Desktop/dummy"},
+      {Zaku.PathFinder, path_to_folder},
       Zaku.WorkerSupervisor,
-      {Zaku.Gatherer, 1}
+      {Zaku.Gatherer, n_workers}
     ]
     opts = [strategy: :one_for_all, name: Zaku.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
-
- 
 end
