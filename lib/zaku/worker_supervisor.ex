@@ -1,26 +1,26 @@
 defmodule Zaku.WorkerSupervisor do
-	use DynamicSupervisor
+  use DynamicSupervisor
 
-	@me WorkerSupervisor
+  @me WorkerSupervisor
 
-	# API
+  # API
 
-	def start_link(_) do
-		DynamicSupervisor
-		.start_link(__MODULE__,
-					 :no_args,
-					 name: @me)
-	end
+  def start_link(_) do
+    DynamicSupervisor.start_link(
+      __MODULE__,
+      :no_args,
+      name: @me
+    )
+  end
 
-	def add_worker do
-		{:ok, _pid } 
-			= DynamicSupervisor.start_child(@me, Zaku.Worker)
-	end
+  def add_worker do
+    {:ok, _pid} =
+      DynamicSupervisor.start_child(@me, Zaku.Worker)
+  end
 
-	# GenServer callbacks
+  # GenServer callbacks
 
-	def init(:no_args) do
-		DynamicSupervisor.init(strategy: :one_for_one)
-	end
-
+  def init(:no_args) do
+    DynamicSupervisor.init(strategy: :one_for_one)
+  end
 end

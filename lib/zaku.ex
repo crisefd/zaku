@@ -1,4 +1,5 @@
-require IEx;
+require IEx
+
 defmodule Zaku do
   @moduledoc """
   Documentation for Zaku.
@@ -16,5 +17,4 @@ defmodule Zaku do
     # opts = [strategy: :one_for_all, name: Zaku.Supervisor]
     # Supervisor.start_link(children, opts)
   end
-
 end
