@@ -1,7 +1,7 @@
 defmodule Zaku.Results do
 	use GenServer
 
-	@me Results
+	@me __MODULE__
 
 	# API
 
@@ -33,7 +33,7 @@ defmodule Zaku.Results do
 	end
 
 	def handle_call(:final_results, _from , results) do
-		{:reply, results}
+		{:reply, results, results}
 	end
 
 end

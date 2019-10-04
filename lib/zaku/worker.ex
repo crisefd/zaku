@@ -25,6 +25,8 @@ defmodule Zaku.Worker do
 
 	defp add_result(path) do
 		Zaku.Gatherer.result(path, metadata_of_file_at(path))
+		send(self(), :do_one_file)
+		{:noreply, nil}
 	end
 
 	defp metadata_of_file_at(path) do
@@ -32,9 +34,10 @@ defmodule Zaku.Worker do
 		|> elem(0)
 		|> String.split("\n")
 		|> Enum.reduce(%{}, fn (txt_row, metadata) ->
-				[field | [ value | []]] = 
-					txt_row |> String.split(":")
-					Map.put(metadata, field, value)
+			 case txt_row |> String.split(":") do
+			 	[field | [ value | []]] -> Map.put(metadata, field, value)
+			 	[field | value] -> Map.put(metadata, field, Enum.join(value, "-"))
+			 end
 		 end)
 	end
 

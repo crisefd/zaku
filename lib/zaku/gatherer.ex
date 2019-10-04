@@ -45,9 +45,7 @@ defmodule Zaku.Gatherer do
 	# Private functions
 
 	defp report_results do
-		IO.puts "Results :
-		#{inspect Zaku.Results.get_final_results()}
-		"
+		IO.inspect Zaku.Results.get_final_results()
 	end
 
 end
