@@ -21,7 +21,7 @@ defmodule Zaku.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Zaku, []}
+      # mod: {Zaku, []}
     ]
   end
 
